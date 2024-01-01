@@ -1,8 +1,13 @@
+"use client"
 import Link from "next/link"
+import { useContext } from "react";
 import { FaUserCircle } from 'react-icons/fa'
-import { MdDarkMode } from 'react-icons/md'
+import { MdDarkMode, MdOutlineLightMode } from 'react-icons/md'
+import ThemeContext from "@/context/themeContext";
 
 const Header = () => {
+  const {darkTheme, setDarkTheme} = useContext(ThemeContext)
+
   return (
     <header className="py-10 px-6 container mx-auto text-xl flex flex-wrap md:flex-nowrap items-center justify-between">
       <div className="flex items-center w-full md:2/3">
@@ -16,7 +21,13 @@ const Header = () => {
             </Link>
           </li>
           <li className="ml-2">
-            <MdDarkMode className="cursor-pointer" />
+           {darkTheme ? <MdOutlineLightMode className="cursor-pointer" onClick={() => {
+            setDarkTheme(false)
+            localStorage.removeItem('villa-theme')
+           }} /> :  <MdDarkMode className="cursor-pointer" onClick={() => {
+            setDarkTheme(true)
+            localStorage.setItem('villa-theme', 'true')
+           }}  /> }
           </li>
         </ul>
       </div>
