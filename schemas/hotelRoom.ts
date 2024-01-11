@@ -134,4 +134,4 @@ const hotelRoom = {
   ],
 };
 
-export default hotelRoom
+export default hotelRoom;
