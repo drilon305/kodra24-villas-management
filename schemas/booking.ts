@@ -4,7 +4,7 @@ const booking = {
     name: 'booking',
     title: 'Booking',
     type: 'document',
-    field: [
+    fields: [
         defineField({
             name: 'user',
             title: 'User',
@@ -65,7 +65,7 @@ const booking = {
             type: 'number',
             validation: Rule => Rule.required().min(0),
         }),
-    ]
+    ],
     
 }
 
