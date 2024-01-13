@@ -2,7 +2,7 @@
 
 import { SessionProvider } from "next-auth/react";
 
-type Props {
+type Props = {
     children: React.ReactNode
 }
 
