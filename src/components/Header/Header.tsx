@@ -20,22 +20,46 @@ const Header = () => {
         </Link>
         <ul className="flex items-center ml-5">
           <li className="flex items-center">
-            {session?.user ? <Link href={`/users/${session.user.id}`}>
-             {session.user.image ? <div className="h-10 w-10 rounded-full overflow-hidden">
-              <Image src={session.user.image} alt={session.user.name!} width={40} height={40} />
-             </div> :  <FaUserCircle className="cursor-pointer" />}
-            </Link> : <Link href={"/auth"}>
-              <FaUserCircle className="cursor-pointer" />
-            </Link>}
+            {session?.user ? (
+              <Link href={`/users/${session.user.id}`}>
+                {session.user.image ? (
+                  <div className="h-10 w-10 rounded-full overflow-hidden">
+                    <Image
+                      src={session.user.image}
+                      alt={session.user.name!}
+                      width={40}
+                      height={40}
+                      className="scale-animation img"
+                    />
+                  </div>
+                ) : (
+                  <FaUserCircle className="cursor-pointer" />
+                )}
+              </Link>
+            ) : (
+              <Link href={"/auth"}>
+                <FaUserCircle className="cursor-pointer" />
+              </Link>
+            )}
           </li>
           <li className="ml-2">
-           {darkTheme ? <MdOutlineLightMode className="cursor-pointer" onClick={() => {
-            setDarkTheme(false)
-            localStorage.removeItem('villa-theme')
-           }} /> :  <MdDarkMode className="cursor-pointer" onClick={() => {
-            setDarkTheme(true)
-            localStorage.setItem('villa-theme', 'true')
-           }}  /> }
+            {darkTheme ? (
+              <MdOutlineLightMode
+                className="cursor-pointer"
+                onClick={() => {
+                  setDarkTheme(false);
+                  localStorage.removeItem("villa-theme");
+                }}
+              />
+            ) : (
+              <MdDarkMode
+                className="cursor-pointer"
+                onClick={() => {
+                  setDarkTheme(true);
+                  localStorage.setItem("villa-theme", "true");
+                }}
+              />
+            )}
           </li>
         </ul>
       </div>
