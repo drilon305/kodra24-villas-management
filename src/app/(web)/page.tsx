@@ -8,6 +8,7 @@ const Home = async () => {
 
   const featuredRoom = await getFeaturedRoom()
 
+
   return <>
   <HeroSection />
   <FeaturedRoom featuredRoom={featuredRoom} />
