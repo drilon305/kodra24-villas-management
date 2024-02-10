@@ -1,6 +1,32 @@
+"use client"
+
+import { useRouter } from "next/navigation";
+import { ChangeEvent, FC } from "react";
+
+type Props = {
+  villaTypeFilter: string;
+  searchQuery: string;
+  setRoomTypeFilter: (value: string) => void;
+  setSearchQuery: (value: string) => void;
+}
 
 
-const Search = () => {
+const Search: FC<Props> = ({ villaTypeFilter, searchQuery, setRoomTypeFilter, setSearchQuery}) => {
+  const router = useRouter()
+
+  const handleVillaTypeChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setRoomTypeFilter(event.target.value)
+
+  }
+
+  const handleSearchQueryChange = (event: ChangeEvent<HTMLInputElement>) => {
+      setSearchQuery(event.target.value)
+  }
+
+  const handleFilterClick = () => {
+    router.push(`/rooms?roomType=${villaTypeFilter}&searchQuery=${searchQuery}`)
+  }
+
   return (
     <section className="bg-tertiary-light px-4 py-6 rounded-lg">
       <div className="container mx-auto flex gap-4 flex-wrap justify-between items-center">

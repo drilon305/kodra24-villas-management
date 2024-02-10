@@ -1,10 +1,21 @@
+"use client"
+
+import { useState } from "react"
 import Search from "../Search/Search"
 
 
 const PageSearch = () => {
-  return (
-   <Search />
-  )
-}
+  const [villaTypeFilter, setVillaTypeFilter] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
-export default PageSearch
+  return (
+    <Search
+      villaTypeFilter={villaTypeFilter}
+      searchQuery={searchQuery}
+      setRoomTypeFilter={setVillaTypeFilter}
+      setSearchQuery={setSearchQuery}
+    />
+  );
+};
+
+export default PageSearch;
