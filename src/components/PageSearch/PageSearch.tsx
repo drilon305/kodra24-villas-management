@@ -5,14 +5,14 @@ import Search from "../Search/Search"
 
 
 const PageSearch = () => {
-  const [villaTypeFilter, setVillaTypeFilter] = useState("");
+  const [roomTypeFilter, setRoomTypeFilter] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <Search
-      villaTypeFilter={villaTypeFilter}
+    roomTypeFilter={roomTypeFilter}
       searchQuery={searchQuery}
-      setRoomTypeFilter={setVillaTypeFilter}
+      setRoomTypeFilter={setRoomTypeFilter}
       setSearchQuery={setSearchQuery}
     />
   );
