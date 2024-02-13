@@ -1,12 +1,29 @@
-"use client"
+"use client";
 
-const RoomDetails = (props: {params: {slug : string}}) => {
-const {params: { slug }} = props;
+import { getRoom } from "@/libs/apis";
+import useSWR from "swr";
+import LoadingSpinner from "../../loading";
+import VillasGallery from "@/components/VillasGallery/VillasGallery";
 
-console.log(slug)
-  return (
-    <div>RoomDetails</div>
-  )
-}
+const RoomDetails = (props: { params: { slug: string } }) => {
+  const {
+    params: { slug },
+  } = props;
 
-export default RoomDetails
+  const fetchRoom = async () => getRoom(slug);
+  const {data: room, error, isLoading} = useSWR("/api/room", fetchRoom);
+
+  if (error) throw new Error('Cannot fetch data');
+  if (typeof room === 'undefined' && !isLoading)
+    throw new Error('Cannot fetch data');
+
+    if(!room) return <LoadingSpinner />
+
+    console.log(room)
+
+  return <div>
+    <VillasGallery photos={room.images} />
+  </div>;
+};
+
+export default RoomDetails;
