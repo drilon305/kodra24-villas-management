@@ -4,6 +4,7 @@ import { Image as ImageType } from "@/models/room";
 import Image from "next/image";
 import { FC, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { MdCancel } from "react-icons/md";
 
 const VillasGallery: FC<{ photos: ImageType[] }> = ({ photos }) => {
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
@@ -13,6 +14,10 @@ const VillasGallery: FC<{ photos: ImageType[] }> = ({ photos }) => {
     setCurrentPhotoIndex(index);
     setShowModal(true);
   };
+
+  const closeModal = () => {
+    setShowModal(false)
+  }
 
   const handlePrevious = () => {
     setCurrentPhotoIndex((prevIndex) =>
@@ -80,14 +85,59 @@ const VillasGallery: FC<{ photos: ImageType[] }> = ({ photos }) => {
               />
             </div>
           ))}
-          {remainingPhotosCount > 0 && <div className="cursor-pointer relative h-64 rounded-2xl overflow-hidden" onClick={openModal.bind(this, maximumVisiblePhotos)}>
-            <Image width={150} height={150} src={photos[maximumVisiblePhotos - 1].url}
-             alt={`Room Photo ${maximumVisiblePhotos}`} className="img" />
-             <div className="absolute cursor-pointer text-white inset-0 flex justify-center bg-[rgba(0,0,0,0.5)] items-center text-2xl">
+          {remainingPhotosCount > 0 && (
+            <div
+              className="cursor-pointer relative h-64 rounded-2xl overflow-hidden"
+              onClick={openModal.bind(this, maximumVisiblePhotos)}
+            >
+              <Image
+                width={150}
+                height={150}
+                src={photos[maximumVisiblePhotos - 1].url}
+                alt={`Room Photo ${maximumVisiblePhotos}`}
+                className="img"
+              />
+              <div className="absolute cursor-pointer text-white inset-0 flex justify-center bg-[rgba(0,0,0,0.5)] items-center text-2xl">
                 + {remainingPhotosCount}
-             </div>
-             </div>}
+              </div>
+            </div>
+          )}
         </div>
+
+        {showModal && (
+         <div className='fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-90 z-[55]'>
+            <div className='h-[75vh] w-[320px] md:w-[700px] relative'>
+              <Image
+                src={photos[currentPhotoIndex].url}
+                alt={`Room Photo ${currentPhotoIndex + 1}`}
+                width={150}
+                height={150}
+                className="img"
+              />
+              <div className="flex justify-between items-center py-3">
+                <div className="flex space-x-2 items-center text-white">
+                  <FaArrowLeft
+                    className="cursor-pointer"
+                    onClick={handlePrevious}
+                  />
+                  <FaArrowRight
+                    className="cursor-pointer"
+                    onClick={handleNext}
+                  />
+                </div>
+                <span className="text-white text-sm">
+                  {currentPhotoIndex + 1}/{photos.length}
+                </span>
+              </div>
+              <button
+                className="top-2 right-2 absolute text-white text-lg"
+                onClick={closeModal}
+              >
+                <MdCancel className="font-medium text-2xl text-tertiary-dark" />
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
