@@ -6,6 +6,7 @@ import { MdCleaningServices, MdOutlineCleaningServices } from "react-icons/md";
 import { LiaFireExtinguisherSolid } from 'react-icons/lia'
 import { AiOutlineMedicineBox } from 'react-icons/ai'
 import { GiSmokeBomb } from 'react-icons/gi'
+import { useState } from "react";
 
 
 import { getRoom } from "@/libs/apis";
@@ -14,10 +15,15 @@ import VillasGallery from "@/components/VillasGallery/VillasGallery";
 import BookRoomCta from "@/components/BookRoomCta/BookRoomCta";
 
 
+
 const RoomDetails = (props: { params: { slug: string } }) => {
   const {
     params: { slug },
   } = props;
+
+
+  const [checkinDate, setCheckinDate] = useState<Date | null>(null)
+  const [checkoutDate, setCheckoutDate] = useState<Date | null>(null)
 
   const fetchRoom = async () => getRoom(slug);
   const { data: room, error, isLoading } = useSWR("/api/room", fetchRoom);
@@ -28,7 +34,15 @@ const RoomDetails = (props: { params: { slug: string } }) => {
 
   if (!room) return <LoadingSpinner />;
 
-  console.log(room);
+  const calcMinCheckoutDate = () => {
+    if(checkinDate) {
+      const nextDay = new Date(checkinDate)
+      nextDay.setDate(nextDay.getDate() + 1)
+      return nextDay;
+
+    }
+    return null
+  }
 
   return (
     <div>
@@ -117,7 +131,16 @@ const RoomDetails = (props: { params: { slug: string } }) => {
           <div className="md:col-span-4 rounded-xl shadow-lg dark:shadow dark:shadow-white sticky top-10 h-fit overflow-auto">
             {/* BOOK ROOM CTA */}
 
-            <BookRoomCta discount={room.discount} price={room.price} specialNote={room.specialNote} />
+            <BookRoomCta 
+            discount={room.discount} 
+            price={room.price} 
+            specialNote={room.specialNote}
+            checkinDate={checkinDate}
+            setCheckinDate={setCheckinDate}
+            checkoutDate={checkoutDate}
+            setCheckoutDate={setCheckoutDate}
+            calcMinCheckoutDate={calcMinCheckoutDate}
+            />
           </div>
         </div>
       </div>
