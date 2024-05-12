@@ -9,12 +9,16 @@ import "react-datepicker/dist/react-datepicker.css";
 type Props = {
   checkinDate: Date | null;
   setCheckinDate: Dispatch<SetStateAction<Date | null>>;
+  setAdults: Dispatch<SetStateAction<number>>;
+  setNoOfChildren: Dispatch<SetStateAction<number>>;
   checkoutDate: Date | null;
   setCheckoutDate: Dispatch<SetStateAction<Date | null>>;
   calcMinCheckoutDate: () => Date | null;
   price: number;
   discount: number;
   specialNote: string;
+  adults: number;
+  noOfChildren: number;
 
 };
 
@@ -28,9 +32,22 @@ const BookRoomCta: FC<Props> = (props) => {
     checkoutDate,
     setCheckoutDate,
     calcMinCheckoutDate,
+    adults,
+    setAdults,
+    noOfChildren,
+    setNoOfChildren
+    
+    
   } = props;
 
   const discountPrice = price - price / 100 - discount;
+
+  const calcNoOfDays = () => {
+     if(!checkinDate || !checkoutDate) return 0;
+     const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
+     const noOfDays = Math.ceil(timeDiff / (24 * 60 * 60 * 1000))
+     return noOfDays;
+  }
 
   return (
     <div className="px-7 py-6">
@@ -102,7 +119,8 @@ const BookRoomCta: FC<Props> = (props) => {
           <input
             type="number"
             id="adults"
-            onChange={(e) => setAdults(e.target.value)}
+            value={adults}
+            onChange={(e) => setAdults(+e.target.value)}
             min={1}
             max={5}
             className="w-full border border-gray-300 rounded-lg p-2.5"
@@ -119,13 +137,15 @@ const BookRoomCta: FC<Props> = (props) => {
             type="number"
             id="children"
             value={noOfChildren}
-            onChange={(e) => setNoOfChildren(e.target.value)}
+            onChange={(e) => setNoOfChildren(+e.target.value)}
             min={0}
             max={3}
             className="w-full border border-gray-300 rounded-lg p-2.5"
           />
         </div>
       </div>
+
+      {calcNoOfDays() > 0 ? <p className="mt-3">Total Price: $ {calcNoOfDays() * discountPrice}</p> : <></>}
     </div>
   );
 };
