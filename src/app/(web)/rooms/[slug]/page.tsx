@@ -13,6 +13,7 @@ import { getRoom } from "@/libs/apis";
 import LoadingSpinner from "../../loading";
 import VillasGallery from "@/components/VillasGallery/VillasGallery";
 import BookRoomCta from "@/components/BookRoomCta/BookRoomCta";
+import toast from "react-hot-toast";
 
 
 
@@ -45,6 +46,22 @@ const RoomDetails = (props: { params: { slug: string } }) => {
     }
     return null
   }
+
+  const handleBookNowClick = () => {
+    if(!checkinDate || !checkoutDate) return toast.error('Please provide checkin / checkout date')
+      if(checkinDate > checkoutDate) return toast.error('Please choose a valid checkin period')
+
+        const numberOfDays = calcNumDays();
+
+        const villaRoomSlug = room.slug.current
+  };
+
+  const calcNumDays = () => {
+    if(!checkinDate || !checkoutDate) return;
+    const timeDiff = checkoutDate.getTime() - checkinDate.getTime();
+    const noOfDays = Math.ceil(timeDiff / (24 * 60 * 60 * 1000))
+    return noOfDays;
+ }
 
   return (
     <div>
@@ -130,7 +147,8 @@ const RoomDetails = (props: { params: { slug: string } }) => {
             </div>
           </div>
 
-          <div className="md:col-span-4 rounded-xl shadow-lg dark:shadow dark:shadow-white sticky top-10 h-fit overflow-auto">
+          <div className="md:col-span-4 rounded-xl shadow-lg dark:shadow dark:shadow-white 
+          sticky top-10 h-fit overflow-auto">
             {/* BOOK ROOM CTA */}
 
             <BookRoomCta 
@@ -146,6 +164,8 @@ const RoomDetails = (props: { params: { slug: string } }) => {
             setAdults={setAdults}
             noOfChildren={noOfchildren}
             setNoOfChildren={setNoOfChildren}
+            handleBookNowClick={handleBookNowClick}
+            isBooked={room.isBooked}
             />
           </div>
         </div>

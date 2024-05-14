@@ -19,6 +19,8 @@ type Props = {
   specialNote: string;
   adults: number;
   noOfChildren: number;
+  isBooked: boolean;
+  handleBookNowClick: () => void;
 
 };
 
@@ -35,9 +37,9 @@ const BookRoomCta: FC<Props> = (props) => {
     adults,
     setAdults,
     noOfChildren,
-    setNoOfChildren
-    
-    
+    setNoOfChildren,
+    isBooked,
+    handleBookNowClick
   } = props;
 
   const discountPrice = price - price / 100 - discount;
@@ -146,6 +148,10 @@ const BookRoomCta: FC<Props> = (props) => {
       </div>
 
       {calcNoOfDays() > 0 ? <p className="mt-3">Total Price: $ {calcNoOfDays() * discountPrice}</p> : <></>}
+
+      <button disabled={isBooked} onClick={handleBookNowClick} className="btn-primary w-full mt-6 disabled:bg-gray-500 disabled:cursor-not-allowed">
+        {isBooked ? 'Booked' : 'Book Now'}
+      </button>
     </div>
   );
 };
