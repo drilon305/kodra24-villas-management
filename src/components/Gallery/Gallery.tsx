@@ -11,6 +11,7 @@ const Gallery = () => {
               className='img'
               src='/images/hero-1.jpeg'
               width={200}
+              priority={false}
               height={200}
             />
           </div>
@@ -40,6 +41,7 @@ const Gallery = () => {
               className='img'
               src='/images/hero-1.jpeg'
               width={200}
+              priority={false}
               height={200}
             />
           </div>
