@@ -19,6 +19,7 @@ export const section2 =   <div className="md:grid hidden gap-8 grid-cols-1">
     alt="hero-1"
     width={300}
     height={300}
+    priority={false}
     className="img scale-animation"
   />
 </div>

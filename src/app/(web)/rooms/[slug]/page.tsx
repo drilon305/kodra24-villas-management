@@ -14,6 +14,8 @@ import LoadingSpinner from "../../loading";
 import VillasGallery from "@/components/VillasGallery/VillasGallery";
 import BookRoomCta from "@/components/BookRoomCta/BookRoomCta";
 import toast from "react-hot-toast";
+import axios from "axios";
+import { getStripe } from "@/libs/stripe";
 
 
 
@@ -47,14 +49,41 @@ const RoomDetails = (props: { params: { slug: string } }) => {
     return null
   }
 
-  const handleBookNowClick = () => {
+  const handleBookNowClick = async () => {
     if(!checkinDate || !checkoutDate) return toast.error('Please provide checkin / checkout date')
+
       if(checkinDate > checkoutDate) return toast.error('Please choose a valid checkin period')
 
         const numberOfDays = calcNumDays();
 
-        const villaRoomSlug = room.slug.current
-  };
+        const villaRoomSlug = room.slug.current;
+
+        const stripe = await getStripe();
+
+        try {
+          const { data: stripeSession } = await axios.post('/api/stripe', {
+            checkinDate,
+            checkoutDate,
+            adults,
+            children: noOfchildren,
+            numberOfDays,
+            villaRoomSlug,
+          });
+    
+          if (stripe) {
+            const result = await stripe.redirectToCheckout({
+              sessionId: stripeSession.id,
+            });
+    
+            if (result.error) {
+              toast.error('Payment Failed');
+            }
+          }
+        } catch (error) {
+          console.log('Error: ', error);
+          toast.error('An error occured');
+        }
+      };
 
   const calcNumDays = () => {
     if(!checkinDate || !checkoutDate) return;
