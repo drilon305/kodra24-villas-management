@@ -1,4 +1,4 @@
-import { createBooking } from "@/libs/apis";
+import { createBooking, updateVillaRoom } from "@/libs/apis";
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 
@@ -46,6 +46,8 @@ export async function POST(req: Request, res: Response) {
             }
         } = session;
 
+       
+
         await createBooking({
           adults: Number(adults),
           checkinDate,
@@ -57,6 +59,8 @@ export async function POST(req: Request, res: Response) {
           totalPrice: Number(totalPrice),
           user,
         });
+
+        await updateVillaRoom(villaRoom)
 
         return NextResponse.json('Booking successful', {
             status: 200, statusText: 'Booking Successful'
