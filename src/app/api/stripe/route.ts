@@ -80,7 +80,7 @@ export async function POST(req: Request, res: Response) {
         checkinDate: formattedCheckinDate,
         checkoutDate: formattedCheckoutDate,
         children,
-        villaRoom: room._id,
+        hotelRoom: room._id,
         numberOfDays,
         user: userId,
         discount: room.discount,
@@ -92,8 +92,6 @@ export async function POST(req: Request, res: Response) {
       status: 200,
       statusText: 'Payment session created',
     });
-
-    
   } catch (error: any) {
     console.log('Payment falied', error);
     return new NextResponse(error, { status: 500 });

@@ -38,7 +38,7 @@ export type Room = {
 
 export type CreateBookingDto = {
     user: string;
-    villaRoom: string;
+    hotelRoom: string;
     checkinDate: string;
     checkoutDate: string;
     numberOfDays: number;
