@@ -105,4 +105,5 @@ export async function getUserBookings(userId: string) {
 
 export async function getUserData(userId: string) {
   const result = await sanityClient.fetch<Booking>(queries.getUserDataQuery, {userId}, {cache: 'no-cache'})
+  return result
 }
